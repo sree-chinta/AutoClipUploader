@@ -10,7 +10,6 @@ from tkinter.filedialog import askdirectory
 from googleapiclient.http import MediaFileUpload
 
 
-
 def formatMetaData(folder, mtime, file):
     title = file[: len(file) - 4]
     description = str(folder) + " | Last modified on: " + str(mtime)
@@ -68,19 +67,6 @@ def uploadVideo(path, video_metadata, credentials):
 
     # Execute the request
     response = request.execute()
-    status, response = None, None
-    while response is None:
-        try:
-            print("Uploading video")
-            status, response = request.next_chunk()
-            if response is not None:
-                print(f"Upload complete! Video ID:{response['id']}")
-            if status:
-                print(f"Upload progress:{int(status.progress() * 100)}%")
-        except Exception as e:
-            print(f"Error:{str(e)}")
-            break
-
 
     # Print the ID of the uploaded video
     print("Uploaded video ID:", response["id"])
@@ -102,7 +88,7 @@ def main():
     print(f"Folder selected: {path}")
     folder = os.path.basename(path).split("/")[-1]
 
-    files = os.listdir(path)
+    files = os.listdir()
     counter = 1
     for file in files:
         if not os.path.isdir(os.path.join(path, file)):
@@ -111,11 +97,18 @@ def main():
                 mtime = os.path.getmtime(os.path.join(path, file))
                 mtime = time.ctime(mtime)
                 video_metadata = formatMetaData(folder, mtime, file)
-                
+
                 uploadVideo(os.path.join(path, file), video_metadata, credentials)
-                
+
                 print(f"{counter}: {video_metadata}\n")
                 counter += 1
+
+                if not os.path.exists(os.path.join(path, "Uploaded")):
+                    os.makedirs("Uploaded")
+
+                os.rename(
+                    os.path.join(path, file), os.path.join(path, "Uploaded/" + file)
+                )
 
 
 if __name__ == "__main__":
