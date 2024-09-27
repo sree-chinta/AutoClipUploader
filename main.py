@@ -72,8 +72,8 @@ def uploadVideo(path, video_metadata, credentials):
 
 
 def main():
-    # Define the required scopes
-    SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
+    # # Define the required scopes
+    # SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
 
     # # Create a flow object using the client secrets JSON file
     # flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
@@ -87,17 +87,17 @@ def main():
     print(path)
 
     files = os.listdir(path)
+    print(files)
+    counter = 1
     for file in files:
-        if os.path.isdir(os.path.join(path, file)):
+        if not os.path.isdir(os.path.join(path, file)):
 
             if file[-4:] == ".mp4":
                 mtime = os.path.getmtime(os.path.join(path, file))
                 video_metadata = formatMetaData(path, mtime, file)
-
-                print(video_metadata)
-
-    # vid_metadata = getUserInput()
-    # print(vid_metadata)
+                
+                print(f"{counter}: {video_metadata}\n")
+                counter += 1
 
     # uploadVideo(path, vid_metadata, credentials)
 
