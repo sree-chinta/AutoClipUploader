@@ -162,4 +162,4 @@ cython_debug/
 #.idea/
 
 .vscode/
-client_secret.json
+client_secret*.json
