@@ -84,18 +84,18 @@ def main():
     # credentials = flow.run_local_server(port=0)
 
     path = askdirectory(title="Select Folder")
-    print(path)
+    print(f"Folder selected: {path}")
+    folder = os.path.basename(path).split("/")[-1]
 
     files = os.listdir(path)
-    print(files)
     counter = 1
     for file in files:
         if not os.path.isdir(os.path.join(path, file)):
 
             if file[-4:] == ".mp4":
                 mtime = os.path.getmtime(os.path.join(path, file))
-                video_metadata = formatMetaData(path, mtime, file)
-                
+                video_metadata = formatMetaData(folder, mtime, file)
+
                 print(f"{counter}: {video_metadata}\n")
                 counter += 1
 
