@@ -9,6 +9,27 @@ from tkinter.filedialog import askdirectory
 from googleapiclient.http import MediaFileUpload
 
 
+def formatMetaData(folder, mtime, file):
+    title = file[: len(file) - 4]
+    description = str(folder) + " | Last modified on: " + str(mtime)
+    tags = folder.replace(" ", "-")[0:500]
+    categoryId = 20
+    privacy = "unlisted"
+    video_metadata = {
+        "snippet": {
+            "title": title,
+            "description": description,
+            "tags": tags,
+            "categoryId": categoryId,  # "20" is the category for "Gaming"
+        },
+        "status": {
+            "privacyStatus": privacy,  # Options: "public", "private", "unlisted"
+        },
+    }
+
+    return video_metadata
+
+
 def getUserInput():
     # Prepare the video metadata
     title = input("Enter Video Title: ")
@@ -54,13 +75,13 @@ def main():
     # Define the required scopes
     SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
 
-    # Create a flow object using the client secrets JSON file
-    flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
-        "client_secrets.json", SCOPES
-    )
+    # # Create a flow object using the client secrets JSON file
+    # flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
+    #     "client_secrets.json", SCOPES
+    # )
 
-    # Run the local server to authenticate the user and get credentials
-    credentials = flow.run_local_server(port=0)
+    # # Run the local server to authenticate the user and get credentials
+    # credentials = flow.run_local_server(port=0)
 
     path = askdirectory(title="Select Folder")
     print(path)
@@ -68,14 +89,17 @@ def main():
     files = os.listdir(path)
     for file in files:
         if os.path.isdir(os.path.join(path, file)):
-            files.remove(file)
-    print(files)
-    print()
 
-    vid_metadata = getUserInput()
-    print(vid_metadata)
+            if file[-4:] == ".mp4":
+                mtime = os.path.getmtime(os.path.join(path, file))
+                video_metadata = formatMetaData(path, mtime, file)
 
-    uploadVideo(path, vid_metadata, credentials)
+                print(video_metadata)
+
+    # vid_metadata = getUserInput()
+    # print(vid_metadata)
+
+    # uploadVideo(path, vid_metadata, credentials)
 
 
 if __name__ == "__main__":
