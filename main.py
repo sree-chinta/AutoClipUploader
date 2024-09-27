@@ -74,16 +74,16 @@ def uploadVideo(path, video_metadata, credentials):
 
 
 def main():
-    # # Define the required scopes
-    # SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
+    # Define the required scopes
+    SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
 
-    # # Create a flow object using the client secrets JSON file
-    # flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
-    #     "client_secrets.json", SCOPES
-    # )
+    # Create a flow object using the client secrets JSON file
+    flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
+        "client_secrets.json", SCOPES
+    )
 
-    # # Run the local server to authenticate the user and get credentials
-    # credentials = flow.run_local_server(port=0)
+    # Run the local server to authenticate the user and get credentials
+    credentials = flow.run_local_server(port=0)
 
     path = askdirectory(title="Select Folder")
     print(f"Folder selected: {path}")
@@ -99,10 +99,10 @@ def main():
                 mtime = time.ctime(mtime)
                 video_metadata = formatMetaData(folder, mtime, file)
                 
+                uploadVideo(os.path.join(path, file), video_metadata, credentials)
+                
                 print(f"{counter}: {video_metadata}\n")
                 counter += 1
-
-    # uploadVideo(path, vid_metadata, credentials)
 
 
 if __name__ == "__main__":
