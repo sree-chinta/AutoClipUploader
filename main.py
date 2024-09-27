@@ -67,6 +67,18 @@ def uploadVideo(path, video_metadata, credentials):
 
     # Execute the request
     response = request.execute()
+    status, response = None, None
+    while response is None:
+        try:
+            print("Uploading video")
+            status, response = request.next_chunk()
+            if response is not None:
+                print(f"Upload complete! Video ID:{response['id']}")
+            if status:
+                print(f"Upload progress:{int(status.progress() * 100)}%")
+        except Exception as e:
+            print(f"Error:{str(e)}")
+            break
 
     # Print the ID of the uploaded video
     print("Uploaded video ID:", response["id"])
