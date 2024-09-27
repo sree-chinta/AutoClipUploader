@@ -1,19 +1,24 @@
 from tkinter import Tk
 from tkinter.filedialog import askdirectory
 # Prepare the video metadata
-
+title = input("Enter Video Title: ")
+description = input("Enter the description of the video: ")
+tags = list(input("Enter the tags: ").split())
+categoryId = input("Enter the category: ")
+privacy = input("Enter the video's privacy (public, private, unlisted): ")
 video_metadata = {
     "snippet": {
-        "title": "My Awesome Video",
-        "description": "This is an awesome video uploaded programmatically!",
-        "tags": ["tag1", "tag2", "example"],
-        "categoryId": "22"  # "22" is the category for "People & Blogs"
+        "title": title,
+        "description": description,
+        "tags": tags,
+        "categoryId": categoryId # "22" is the category for "People & Blogs"
     },
     "status": {
-        "privacyStatus": "public",  # Options: "public", "private", "unlisted"
+        "privacyStatus": privacy,  # Options: "public", "private", "unlisted"
     }
 }
 
+print(video_metadata)
 
 path = askdirectory(title="Select Folder")
 print(path)
