@@ -3,10 +3,12 @@ import google_auth_oauthlib.flow
 import googleapiclient.discovery
 import googleapiclient.errors
 import googleapiclient.discovery
+import time
 from googleapiclient.http import MediaFileUpload
 from tkinter import Tk
 from tkinter.filedialog import askdirectory
 from googleapiclient.http import MediaFileUpload
+
 
 
 def formatMetaData(folder, mtime, file):
@@ -94,8 +96,9 @@ def main():
 
             if file[-4:] == ".mp4":
                 mtime = os.path.getmtime(os.path.join(path, file))
+                mtime = time.ctime(mtime)
                 video_metadata = formatMetaData(folder, mtime, file)
-
+                
                 print(f"{counter}: {video_metadata}\n")
                 counter += 1
 
