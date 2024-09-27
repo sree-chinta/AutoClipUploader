@@ -19,6 +19,5 @@ video_metadata = {
 }
 
 print(video_metadata)
-
 path = askdirectory(title="Select Folder")
 print(path)
