@@ -118,16 +118,19 @@ def main():
                 counter += 1
 
                 if os.name == "nt":
-                    if not os.path.exists(os.path.join(path, "Uploaded").replace("/", "\\")):
-                        os.makedirs("Uploaded")
-                    
+                    if not os.path.exists(
+                        os.path.join(path, "Uploaded").replace("/", "\\")
+                    ):
+                        os.makedirs(os.path.join(path, "Uploaded").replace("/", "\\"))
+
                     os.rename(
-                        os.path.join(path, file).replace("/", "\\"), os.path.join(path, "Uploaded/" + file).replace("/", "\\")
+                        os.path.join(path, file).replace("/", "\\"),
+                        os.path.join(path, "Uploaded/" + file).replace("/", "\\"),
                     )
                 else:
                     if not os.path.exists(os.path.join(path, "Uploaded")):
-                        os.makedirs("Uploaded")
-                    
+                        os.makedirs(os.path.join(path, "Uploaded"))
+
                     os.rename(
                         os.path.join(path, file), os.path.join(path, "Uploaded/" + file)
                     )

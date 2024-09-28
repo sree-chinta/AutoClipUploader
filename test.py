@@ -1,5 +1,8 @@
 from tkinter import Tk
 from tkinter.filedialog import askdirectory
+
+import os
+
 # Prepare the video metadata
 title = input("Enter Video Title: ")
 description = input("Enter the description of the video: ")
@@ -11,13 +14,15 @@ video_metadata = {
         "title": title,
         "description": description,
         "tags": tags,
-        "categoryId": categoryId # "22" is the category for "People & Blogs"
+        "categoryId": categoryId,  # "22" is the category for "People & Blogs"
     },
     "status": {
         "privacyStatus": privacy,  # Options: "public", "private", "unlisted"
-    }
+    },
 }
 
-print(video_metadata)
 path = askdirectory(title="Select Folder")
 print(path)
+
+if not os.path.exists(os.path.join(path, "Uploaded")):
+    os.makedirs(os.path.join(path, "Uploaded"))
