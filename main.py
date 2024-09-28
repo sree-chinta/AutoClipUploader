@@ -66,6 +66,7 @@ def uploadVideo(path, video_metadata, credentials):
     )
 
     # Execute the request
+    print("Executing request!")
     response = request.execute()
     status, response = None, None
     while response is None:
@@ -100,7 +101,8 @@ def main():
     print(f"Folder selected: {path}")
     folder = os.path.basename(path).split("/")[-1]
 
-    files = os.listdir()
+    files = os.listdir(path)
+    print(files)
     counter = 1
     for file in files:
         if not os.path.isdir(os.path.join(path, file)):
@@ -115,12 +117,20 @@ def main():
                 print(f"{counter}: {video_metadata}\n")
                 counter += 1
 
-                if not os.path.exists(os.path.join(path, "Uploaded")):
-                    os.makedirs("Uploaded")
-
-                os.rename(
-                    os.path.join(path, file), os.path.join(path, "Uploaded/" + file)
-                )
+                if os.name == "nt":
+                    if not os.path.exists(os.path.join(path, "Uploaded").replace("/", "\\")):
+                        os.makedirs("Uploaded")
+                    
+                    os.rename(
+                        os.path.join(path, file).replace("/", "\\"), os.path.join(path, "Uploaded/" + file).replace("/", "\\")
+                    )
+                else:
+                    if not os.path.exists(os.path.join(path, "Uploaded")):
+                        os.makedirs("Uploaded")
+                    
+                    os.rename(
+                        os.path.join(path, file), os.path.join(path, "Uploaded/" + file)
+                    )
 
 
 if __name__ == "__main__":
