@@ -1,6 +1,6 @@
 # AutoClipUploader
 
-Contributors: Sree Chinta, Samik Pradhan
+Contributors: [Sree Chinta](https://github.com/sree-chinta), [Samik Pradhan](https://github.com/samik-p)
 
 ## Overview
 
